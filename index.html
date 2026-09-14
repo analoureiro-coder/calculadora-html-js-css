@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<title>Calculadora</title>
+</head>
+
+<body>
+<div class="conteinerPrincipal">
+    <div class="conteinerCalculadora">
+
+        <div class="title">
+            <h1>Calculadora Simples</h1>
+        </div>
+
+        <div class="conteinerBotoes">       
+            <input type="text" id="display" value="0" readonly>
+            <div class="operacoes">
+                <button onclick="operar('/')">/</button>
+                <button onclick="operar('*')">x</button>
+                <button onclick="operar('-')">-</button>
+                <button onclick="operar('+')">+</button>
+            </div>
+
+            <div class="numeros">
+                <button onclick="addNumero('1')">1</button>
+                <button onclick="addNumero('2')">2</button>
+                <button onclick="addNumero('3')">3</button>
+                <button onclick="addNumero('4')">4</button>
+                <button onclick="addNumero('5')">5</button>
+                <button onclick="addNumero('6')">6</button>
+                <button onclick="addNumero('7')">7</button>
+                <button onclick="addNumero('8')">8</button>
+                <button onclick="addNumero('9')">9</button>
+                <button onclick="addNumero('0')">0</button>
+            </div>
+
+            <div class="botaoApagar">
+                <button onclick="limpar()">C</button>
+                <button onclick="apagar()">DEL</button>
+                <button onclick="calcular()">=</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+const display = document.getElementById('display');
+let expressao = '';
+
+function addNumero(valor){
+    if(expressao === '' && display.value !== '0'){
+        expressao = '';
+    }
+    expressao += valor;
+    display.value = expressao;
+}
+
+function operar(op){
+    if(expressao === '') return;
+    expressao += op;
+    display.value = expressao;
+}
+
+function limpar(){
+    expressao = '';
+    display.value = '0';
+}
+
+function apagar(){
+    expressao = expressao.slice(0, -1);
+    display.value = expressao === '' ? '0' : expressao;
+}
+
+function calcular(){
+    try{
+        // eslint-disable-next-line no-eval
+        const resultado = Function('"use strict"; return (' + expressao + ')')();
+        display.value = resultado;
+        expressao = String(resultado);
+    }catch(e){
+        display.value = 'Erro';
+        expressao = '';
+    }
+}
+</script>
+
+</body>
+</html>
